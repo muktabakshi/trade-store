@@ -13,7 +13,7 @@ spring:
       show-sql: true
   data:
     mongodb:
-      uri: mongodb+srv://Admin:qwerty123@cluster0.0tisjwt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/tradestore
+      uri: mongodb+srv://credentials@cluster0.0tisjwt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/tradestore
       database: tradestore
 kafka:
   bootstrap-servers: localhost:9092
