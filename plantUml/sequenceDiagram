@@ -1,0 +1,37 @@
+@startuml
+title Trade Store - Sequence Diagram (with Kafka Consumer/RestAPI/DB/Schedular)
+
+actor Scheduler as "Scheduled Job"
+participant "TradeController" as Controller
+participant "TradeService" as Service
+participant "TradeRepository" as Repo
+database "TradeDB" as PostgreSQLDB
+participant "TradeAuditRepository" as AuditRepo
+database "AuditDB" as MongoDB
+participant "KafkaProducer" as Producer
+participant "KafkaConsumer" as Consumer
+
+== Expiry Job Flow ==
+Scheduler -> Service: triggerMarkExpiredTrades()
+activate Service
+Service -> Repo: UpdateTradesWhere(maturityDate < now AND status != EXPIRED)
+Service -> AuditRepo : Save Exiry Audit record
+activate Repo
+activate AuditRepo
+AuditRepo -> MongoDB
+Repo -> PostgreSQLDB: update Trade t set t.expired = true where t.maturityDate < :today and t.expired = false
+PostgreSQLDB --> Repo: status
+deactivate MongoDB
+deactivate Repo
+deactivate Service
+
+== Kafka Consumer Flow ==
+Consumer -> Service: onMessage(tradeEvent)
+activate Service
+Service -> Repo: saveOrUpdateTrade(trade)
+Repo -> DB: insert/update trade record
+DB --> Repo: ack
+Service --> Consumer: processedAck
+deactivate Service
+
+@enduml

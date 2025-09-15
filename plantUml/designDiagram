@@ -1,0 +1,39 @@
+@startuml
+title Trade Store — Component Diagram (with Kafka Consumer/RestAPI/DB/Schedular)
+package "API Layer" {
+[TradeController]
+}
+
+
+package "Service Layer" {
+[TradeService]
+}
+
+package "Schedular" {
+[ExpirySchedular]
+}
+package "Persistence" {
+[TradeRepository]
+database "Postgres" as PostgresSQL
+[TradeAuditRepository]
+database "Mongo" as MongoDB
+}
+
+
+package "Integration" {
+[Kafka Producer]
+[Kafka Consumer]
+}
+
+
+[TradeController] --> [TradeService]
+[ExpirySchedular] --> [TradeService]
+[TradeService] --> [TradeRepository]
+[TradeService] --> [TradeAuditRepository]
+[TradeRepository] --> PostgresSQL
+[TradeAuditRepository] --> MongoDB
+[TradeService] --> [Kafka Producer]
+[Kafka Consumer] --> [TradeService]
+
+
+@enduml

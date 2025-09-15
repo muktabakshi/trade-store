@@ -1,0 +1,67 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# Eclipse / IntelliJ IDEA
+*.iml
+*.ipr
+*.iws
+.idea/
+*.class
+*.log
+*.hprof
+*.DS_Store
+
+# Spring Boot specific
+spring.log
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven / Gradle Wrapper
+gradle/wrapper/gradle-wrapper.jar
+
+# Generated files
+*.log
+*.tmp
+*.swp
+*.bak
+*.orig
+
+# Test reports
+test-output/
+build/reports/
+build/test-results/
+out/test-results/
+
+# IDE metadata
+*.classpath
+*.project
+*.settings/
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+*.lock
+*.so
+*.dll
+*.exe
+
+# Kafka / Zookeeper data
+/kafka-logs/
+/zookeeper-data/
+
+# Node / frontend
+node_modules/
+dist/
+
+# Environment files
+.env
+*.env

@@ -1,0 +1,86 @@
+@startuml
+title Trade Store — Class Diagram (with Kafka Consumer/RestAPI/DB/Schedular)
+
+class TradeKey {
++String id
++int version
+}
+
+class Trade {
++TradeKey id
++String bookId
++String counterPartyId
++LocalDate maturityDate
++LocalDate createdDate
++LocalDate updatedDate
++boolean isExpired
+}
+
+class TradeAuditDoc {
++String id
++String bookId
++String counterPartyId
++LocalDate maturityDate
++LocalDate createdDate
++LocalDate lastModifiedDate
++int version
++String createdBy
++String updatedBy
++String response
++String remarks
+}
+
+class TradeExpireAuditDoc {
++String id
++LocalDate maturityDate
++LocalDate createdDate
++LocalDate lastModifiedDate
++String createdBy
++String updatedBy
+}
+
+class TradeController {
++ResponseEntity<Trade> upsert(TradeDTO)
++ResponseEntity<Integer> expire()
++ResponseEntity<String> publish(TradeDTO)
+}
+
+
+class TradeService {
++Trade upsert(TradeDTO)
++int expirePastMaturity()
+}
+
+
+class TradeRepository {
++Optional<Integer> findMaxVersion(String)
++List<Trade> markExpired(LocalDate date)
++Trade save(Trade)
+}
+
+class TradeAuditRepository {
++void save(TradeAuditDoc)
+}
+
+class TradeExpireAuditRepository {
++void save(TradeExpireAuditDoc)
+}
+
+
+class KafkaConsumer {
++void onMessage(TradeEvent)
+}
+
+
+TradeController --> TradeService
+TradeService --> TradeRepository
+TradeService --> TradeAuditRepository
+TradeService --> TradeExpireAuditRepository
+TradeRepository --> Trade
+TradeAuditRepository --> TradeAuditDoc
+TradeExpireAuditRepository --> TradeExpireAuditDoc
+KafkaConsumer --> TradeService
+Trade --> TradeKey
+
+
+@enduml
