@@ -15,8 +15,8 @@ public class KafkaConsumerService {
         this.service = service;
     }
 
-/*    @KafkaListener(topics = "${kafka.topic:trades.incoming}", groupId = "trade-store")
+    @KafkaListener(topics = "${kafka.topic:trades.incoming}", groupId = "trade-store")
     public void consume(ConsumerRecord<String, TradeDto> record) throws TradeValidationException {
         service.upsert(record.value());
-    }*/
+    }
 }

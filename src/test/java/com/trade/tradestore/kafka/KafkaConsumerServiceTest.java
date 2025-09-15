@@ -21,7 +21,7 @@ class KafkaConsumerServiceTest  {
         tradeService = mock(TradeService.class);
         kafkaConsumerService = new KafkaConsumerService(tradeService);
     }
-/*
+
     @Test
     void consume_shouldCallTradeServiceUpsert() throws TradeValidationException {
         // given
@@ -53,5 +53,5 @@ class KafkaConsumerServiceTest  {
         } catch (TradeValidationException ex) {
             assertThat(ex.getMessage()).isEqualTo("Invalid trade");
         }
-    }*/
+    }
 }
